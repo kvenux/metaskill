@@ -68,7 +68,7 @@ Windows (PowerShell):
     # Generate bash install script
     bash_script = r"""#!/usr/bin/env bash
 set -e
-SKILL_DIR="$HOME/.config/opencode/skills/codeskill"
+SKILL_DIR="${SKILL_DIR:-$HOME/.config/opencode/skills/codeskill}"
 API_BASE="${CODESKILL_API_BASE:-https://kvenux.github.io/metaskill}"
 echo "Installing codeskill to $SKILL_DIR ..."
 mkdir -p "$SKILL_DIR/scripts" "$SKILL_DIR/references"
@@ -84,7 +84,7 @@ echo "Verify: python $SKILL_DIR/scripts/codeskill_cli.py --help"
 
     # Generate PowerShell install script
     ps_script = r"""$ErrorActionPreference = "Stop"
-$SkillDir = "$env:USERPROFILE\.config\opencode\skills\codeskill"
+$SkillDir = if ($env:SKILL_DIR) { $env:SKILL_DIR } else { "$env:USERPROFILE\.config\opencode\skills\codeskill" }
 $ApiBase = if ($env:CODESKILL_API_BASE) { $env:CODESKILL_API_BASE } else { "https://kvenux.github.io/metaskill" }
 Write-Host "Installing codeskill to $SkillDir ..."
 New-Item -ItemType Directory -Force -Path "$SkillDir\scripts","$SkillDir\references" | Out-Null
