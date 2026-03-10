@@ -35,15 +35,19 @@ def _generate_codeskill_files():
             shutil.copy2(src, dst)
 
     # Generate setup instructions
-    setup_text = """# CodeSkill 安装指引
+    base = "https://kvenux.github.io/metaskill"
+    setup_text = f"""# CodeSkill 安装指引
+
+Fetch the installation guide and follow it:
+  curl -s {base}/api/codeskill/setup | cat
 
 ## 一键安装
 
 Linux / macOS:
-  curl -s $API_BASE/api/codeskill/install-sh | bash
+  curl -s {base}/api/codeskill/install-sh | bash
 
 Windows (PowerShell):
-  irm $API_BASE/api/codeskill/install-ps1 | iex
+  irm {base}/api/codeskill/install-ps1 | iex
 
 ## 手动安装
 
@@ -51,9 +55,9 @@ Windows (PowerShell):
    mkdir -p ~/.config/opencode/skills/codeskill/scripts ~/.config/opencode/skills/codeskill/references
 
 2. 下载文件:
-   curl -o ~/.config/opencode/skills/codeskill/SKILL.md $API_BASE/api/codeskill/files/SKILL.md
-   curl -o ~/.config/opencode/skills/codeskill/scripts/codeskill_cli.py $API_BASE/api/codeskill/files/scripts/codeskill_cli.py
-   curl -o ~/.config/opencode/skills/codeskill/references/API_REFERENCE.md $API_BASE/api/codeskill/files/references/API_REFERENCE.md
+   curl -o ~/.config/opencode/skills/codeskill/SKILL.md {base}/api/codeskill/files/SKILL.md
+   curl -o ~/.config/opencode/skills/codeskill/scripts/codeskill_cli.py {base}/api/codeskill/files/scripts/codeskill_cli.py
+   curl -o ~/.config/opencode/skills/codeskill/references/API_REFERENCE.md {base}/api/codeskill/files/references/API_REFERENCE.md
 
 3. 验证:
    python ~/.config/opencode/skills/codeskill/scripts/codeskill_cli.py --help
@@ -65,7 +69,7 @@ Windows (PowerShell):
     bash_script = r"""#!/usr/bin/env bash
 set -e
 SKILL_DIR="$HOME/.config/opencode/skills/codeskill"
-API_BASE="${CODESKILL_API_BASE:-__API_BASE__}"
+API_BASE="${CODESKILL_API_BASE:-https://kvenux.github.io/metaskill}"
 echo "Installing codeskill to $SKILL_DIR ..."
 mkdir -p "$SKILL_DIR/scripts" "$SKILL_DIR/references"
 curl -sfL "$API_BASE/api/codeskill/files/SKILL.md" -o "$SKILL_DIR/SKILL.md"
@@ -81,7 +85,7 @@ echo "Verify: python $SKILL_DIR/scripts/codeskill_cli.py --help"
     # Generate PowerShell install script
     ps_script = r"""$ErrorActionPreference = "Stop"
 $SkillDir = "$env:USERPROFILE\.config\opencode\skills\codeskill"
-$ApiBase = if ($env:CODESKILL_API_BASE) { $env:CODESKILL_API_BASE } else { "__API_BASE__" }
+$ApiBase = if ($env:CODESKILL_API_BASE) { $env:CODESKILL_API_BASE } else { "https://kvenux.github.io/metaskill" }
 Write-Host "Installing codeskill to $SkillDir ..."
 New-Item -ItemType Directory -Force -Path "$SkillDir\scripts","$SkillDir\references" | Out-Null
 Invoke-WebRequest -Uri "$ApiBase/api/codeskill/files/SKILL.md" -OutFile "$SkillDir\SKILL.md"
