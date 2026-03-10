@@ -1,0 +1,182 @@
+:root {
+  --bg: #f8f9fa;
+  --bg-card: #ffffff;
+  --bg-hero: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --text: #1a1a2e;
+  --text-secondary: #6c757d;
+  --border: #e2e8f0;
+  --accent: #667eea;
+  --accent-hover: #5a6fd6;
+  --tag-bg: #eef2ff;
+  --tag-text: #4338ca;
+  --safe: #10b981;
+  --warning: #f59e0b;
+  --blocked: #ef4444;
+  --radius: 10px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.12);
+  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'SF Mono', 'Fira Code', monospace;
+}
+
+[data-theme="dark"] {
+  --bg: #0f172a;
+  --bg-card: #1e293b;
+  --text: #e2e8f0;
+  --text-secondary: #94a3b8;
+  --border: #334155;
+  --tag-bg: #312e81;
+  --tag-text: #a5b4fc;
+  --shadow: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-hover: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* --- Header --- */
+.header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 12px 24px; border-bottom: 1px solid var(--border);
+  background: var(--bg-card);
+}
+.header h1 { font-size: 1.25rem; }
+.theme-toggle {
+  background: none; border: 1px solid var(--border); border-radius: 6px;
+  padding: 6px 12px; cursor: pointer; color: var(--text); font-size: 0.9rem;
+}
+
+/* --- Hero --- */
+.hero {
+  background: var(--bg-hero); color: #fff; text-align: center;
+  padding: 48px 24px;
+}
+.hero h2 { font-size: 2rem; margin-bottom: 12px; }
+.hero p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 20px; }
+.install-box {
+  background: rgba(0,0,0,0.25); border-radius: 8px; padding: 16px;
+  max-width: 640px; margin: 0 auto; text-align: left;
+}
+.install-box code {
+  display: block; font-family: var(--mono); font-size: 0.9rem;
+  padding: 4px 0; word-break: break-all;
+}
+.install-box .copy-btn {
+  background: rgba(255,255,255,0.2); border: none; color: #fff;
+  padding: 4px 10px; border-radius: 4px; cursor: pointer; float: right;
+  font-size: 0.8rem; margin-top: -24px;
+}
+.install-box .copy-btn:hover { background: rgba(255,255,255,0.35); }
+
+/* --- Controls --- */
+.controls {
+  max-width: 1200px; margin: 24px auto; padding: 0 24px;
+  display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+}
+.search-input {
+  flex: 1; min-width: 200px; padding: 10px 14px; border: 1px solid var(--border);
+  border-radius: var(--radius); font-size: 1rem; background: var(--bg-card);
+  color: var(--text); outline: none;
+}
+.search-input:focus { border-color: var(--accent); }
+.filter-select {
+  padding: 10px 14px; border: 1px solid var(--border); border-radius: var(--radius);
+  font-size: 0.9rem; background: var(--bg-card); color: var(--text); cursor: pointer;
+}
+
+/* --- Skill Grid --- */
+.section { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.section-title { font-size: 1.4rem; margin-bottom: 16px; }
+.skill-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+.skill-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; cursor: pointer;
+  box-shadow: var(--shadow); transition: box-shadow 0.2s, transform 0.2s;
+}
+.skill-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+.skill-card h3 { font-size: 1rem; margin-bottom: 6px; }
+.skill-card .summary { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 10px; }
+.skill-card .meta { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.tag {
+  display: inline-block; background: var(--tag-bg); color: var(--tag-text);
+  font-size: 0.75rem; padding: 2px 8px; border-radius: 12px;
+}
+.badge-safe { color: var(--safe); }
+.badge-warning { color: var(--warning); }
+.badge-blocked { color: var(--blocked); }
+.category-badge {
+  font-size: 0.75rem; color: var(--text-secondary);
+  border: 1px solid var(--border); padding: 2px 8px; border-radius: 12px;
+}
+
+/* --- Packs --- */
+.pack-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+.pack-card {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 16px; box-shadow: var(--shadow);
+}
+.pack-card h3 { font-size: 1rem; margin-bottom: 4px; }
+.pack-card .desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 8px; }
+.pack-card .count { font-size: 0.8rem; color: var(--accent); }
+
+/* --- Modal --- */
+.modal-overlay {
+  display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+  z-index: 100; justify-content: center; align-items: center;
+}
+.modal-overlay.active { display: flex; }
+.modal {
+  background: var(--bg-card); border-radius: 12px; padding: 24px;
+  max-width: 640px; width: 90%; max-height: 80vh; overflow-y: auto;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+.modal h2 { margin-bottom: 12px; }
+.modal .close-btn {
+  float: right; background: none; border: none; font-size: 1.5rem;
+  cursor: pointer; color: var(--text); line-height: 1;
+}
+.modal .detail-row { margin-bottom: 10px; }
+.modal .detail-label { font-weight: 600; font-size: 0.85rem; color: var(--text-secondary); }
+.modal .install-cmd {
+  background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+  padding: 10px; font-family: var(--mono); font-size: 0.85rem;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.modal .install-cmd button {
+  background: var(--accent); color: #fff; border: none; padding: 4px 12px;
+  border-radius: 4px; cursor: pointer; font-size: 0.8rem;
+}
+
+/* --- Stats Footer --- */
+.stats-bar {
+  max-width: 1200px; margin: 0 auto; padding: 24px;
+  display: flex; gap: 24px; flex-wrap: wrap; justify-content: center;
+  color: var(--text-secondary); font-size: 0.9rem;
+}
+.stat-item span { font-weight: 700; color: var(--accent); }
+
+/* --- Loading / Empty --- */
+.loading { text-align: center; padding: 48px; color: var(--text-secondary); }
+.empty { text-align: center; padding: 48px; color: var(--text-secondary); }
+
+/* --- Responsive --- */
+@media (max-width: 640px) {
+  .hero h2 { font-size: 1.4rem; }
+  .controls { flex-direction: column; }
+  .skill-grid { grid-template-columns: 1fr; }
+}

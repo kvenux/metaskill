@@ -1,0 +1,25 @@
+# Aggregator working directories
+aggregator/_repos/
+aggregator/__pycache__/
+aggregator/.llm_cache/
+
+# Generated API files
+site/api/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Repos (cloned source repos)
+repos/

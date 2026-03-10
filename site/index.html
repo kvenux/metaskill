@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MetaSkill — AI 编程技能目录</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <h1>MetaSkill</h1>
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">🌓 主题</button>
+  </header>
+
+  <section class="hero">
+    <h2>AI 编程技能目录</h2>
+    <p>聚合 900+ 编程技能，一键搜索、浏览、安装</p>
+    <div class="install-box">
+      <code>curl -s https://&lt;your-domain&gt;/api/codeskill/setup | cat</code>
+      <code style="margin-top:4px">curl -s https://&lt;your-domain&gt;/api/codeskill/install-sh | bash</code>
+      <button class="copy-btn" onclick="copyInstall()">复制</button>
+    </div>
+  </section>
+
+  <div class="controls">
+    <input class="search-input" id="searchInput" type="text" placeholder="搜索技能名称、标签、描述...">
+    <select class="filter-select" id="categoryFilter"><option value="">全部分类</option></select>
+    <select class="filter-select" id="repoFilter"><option value="">全部来源</option></select>
+  </div>
+
+  <section class="section">
+    <h2 class="section-title">技能列表 <span id="skillCount"></span></h2>
+    <div class="skill-grid" id="skillGrid"></div>
+    <div class="loading" id="loading">加载中...</div>
+    <div class="empty" id="empty" style="display:none">没有找到匹配的技能</div>
+  </section>
+
+  <section class="section">
+    <h2 class="section-title">推荐技能包</h2>
+    <div class="pack-grid" id="packGrid"></div>
+  </section>
+
+  <div class="stats-bar" id="statsBar"></div>
+
+  <!-- Skill Detail Modal -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
