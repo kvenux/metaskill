@@ -41,17 +41,98 @@
       </h1>
       <p class="hero-sub" data-i18n="hero_sub">900+ curated skills. Search, browse, install in seconds.</p>
 
+      <!-- Install tabs -->
       <div class="install-card">
-        <div class="install-label">
-          <span class="install-step">$</span>
-          <span data-i18n="install_instruction">Fetch the installation guide and follow it:</span>
+        <!-- Tool tabs -->
+        <div class="tool-tablist" role="tablist" aria-label="AI Tool">
+          <button class="tool-tab active" role="tab" aria-selected="true"  data-tool="opencode"   onclick="selectTool('opencode')"   aria-controls="tp-opencode">OpenCode</button>
+          <button class="tool-tab"        role="tab" aria-selected="false" data-tool="claude-code" onclick="selectTool('claude-code')" aria-controls="tp-claude-code">Claude Code</button>
+          <button class="tool-tab"        role="tab" aria-selected="false" data-tool="codex"       onclick="selectTool('codex')"       aria-controls="tp-codex">Codex</button>
+          <div class="tool-tab-indicator" id="toolIndicator"></div>
         </div>
-        <div class="install-cmd-row">
-          <code class="install-cmd">curl -s https://kvenux.github.io/metaskill/api/codeskill/setup | cat</code>
-          <button class="copy-btn" onclick="copyInstall()" data-i18n-attr="title" data-i18n="copy">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            <span data-i18n="copy">Copy</span>
-          </button>
+
+        <!-- OpenCode -->
+        <div class="tool-panel active" id="tp-opencode" role="tabpanel">
+          <div class="method-tablist" role="tablist">
+            <button class="method-tab active" role="tab" data-panel="oc-linux" onclick="selectMethod(this,'oc-linux')">Linux / macOS</button>
+            <button class="method-tab"        role="tab" data-panel="oc-win"   onclick="selectMethod(this,'oc-win')">Windows (PS)</button>
+          </div>
+          <div class="cmd-panel active" id="oc-linux">
+            <div class="install-label"><span class="install-step">$</span><span data-i18n="install_instruction">Fetch the installation guide and follow it:</span></div>
+            <div class="install-cmd-row">
+              <code class="install-cmd">curl -s https://kvenux.github.io/metaskill/api/codeskill/install-sh | bash</code>
+              <button class="copy-btn" onclick="copyCmd(this)" data-cmd="curl -s https://kvenux.github.io/metaskill/api/codeskill/install-sh | bash">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-i18n="copy">Copy</span>
+              </button>
+            </div>
+          </div>
+          <div class="cmd-panel" id="oc-win">
+            <div class="install-label"><span class="install-step">&gt;</span><span data-i18n="install_instruction">Fetch the installation guide and follow it:</span></div>
+            <div class="install-cmd-row">
+              <code class="install-cmd">irm https://kvenux.github.io/metaskill/api/codeskill/install-ps1 | iex</code>
+              <button class="copy-btn" onclick="copyCmd(this)" data-cmd="irm https://kvenux.github.io/metaskill/api/codeskill/install-ps1 | iex">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-i18n="copy">Copy</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Claude Code -->
+        <div class="tool-panel" id="tp-claude-code" role="tabpanel">
+          <div class="method-tablist" role="tablist">
+            <button class="method-tab active" role="tab" data-panel="cc-linux" onclick="selectMethod(this,'cc-linux')">Linux / macOS</button>
+            <button class="method-tab"        role="tab" data-panel="cc-win"   onclick="selectMethod(this,'cc-win')">Windows (PS)</button>
+          </div>
+          <div class="cmd-panel active" id="cc-linux">
+            <div class="install-label"><span class="install-step">$</span><span data-i18n="install_instruction">Fetch the installation guide and follow it:</span></div>
+            <div class="install-cmd-row">
+              <code class="install-cmd">curl -s https://kvenux.github.io/metaskill/api/codeskill/install-sh | SKILL_DIR=~/.claude/skills/codeskill bash</code>
+              <button class="copy-btn" onclick="copyCmd(this)" data-cmd="curl -s https://kvenux.github.io/metaskill/api/codeskill/install-sh | SKILL_DIR=~/.claude/skills/codeskill bash">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-i18n="copy">Copy</span>
+              </button>
+            </div>
+          </div>
+          <div class="cmd-panel" id="cc-win">
+            <div class="install-label"><span class="install-step">&gt;</span><span data-i18n="install_instruction">Fetch the installation guide and follow it:</span></div>
+            <div class="install-cmd-row">
+              <code class="install-cmd">$env:SKILL_DIR="$HOME\.claude\skills\codeskill"; irm https://kvenux.github.io/metaskill/api/codeskill/install-ps1 | iex</code>
+              <button class="copy-btn" onclick="copyCmd(this)" data-cmd='$env:SKILL_DIR="$HOME\.claude\skills\codeskill"; irm https://kvenux.github.io/metaskill/api/codeskill/install-ps1 | iex'>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-i18n="copy">Copy</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Codex -->
+        <div class="tool-panel" id="tp-codex" role="tabpanel">
+          <div class="method-tablist" role="tablist">
+            <button class="method-tab active" role="tab" data-panel="cx-linux" onclick="selectMethod(this,'cx-linux')">Linux / macOS</button>
+            <button class="method-tab"        role="tab" data-panel="cx-win"   onclick="selectMethod(this,'cx-win')">Windows (PS)</button>
+          </div>
+          <div class="cmd-panel active" id="cx-linux">
+            <div class="install-label"><span class="install-step">$</span><span data-i18n="install_instruction">Fetch the installation guide and follow it:</span></div>
+            <div class="install-cmd-row">
+              <code class="install-cmd">curl -s https://kvenux.github.io/metaskill/api/codeskill/install-sh | SKILL_DIR=~/.codex/skills/codeskill bash</code>
+              <button class="copy-btn" onclick="copyCmd(this)" data-cmd="curl -s https://kvenux.github.io/metaskill/api/codeskill/install-sh | SKILL_DIR=~/.codex/skills/codeskill bash">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-i18n="copy">Copy</span>
+              </button>
+            </div>
+          </div>
+          <div class="cmd-panel" id="cx-win">
+            <div class="install-label"><span class="install-step">&gt;</span><span data-i18n="install_instruction">Fetch the installation guide and follow it:</span></div>
+            <div class="install-cmd-row">
+              <code class="install-cmd">$env:SKILL_DIR="$HOME\.codex\skills\codeskill"; irm https://kvenux.github.io/metaskill/api/codeskill/install-ps1 | iex</code>
+              <button class="copy-btn" onclick="copyCmd(this)" data-cmd='$env:SKILL_DIR="$HOME\.codex\skills\codeskill"; irm https://kvenux.github.io/metaskill/api/codeskill/install-ps1 | iex'>
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                <span data-i18n="copy">Copy</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>

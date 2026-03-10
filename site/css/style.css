@@ -131,27 +131,81 @@ body {
 /* Install card */
 .install-card {
   background: var(--bg-surface); border: 1px solid var(--border);
-  border-radius: var(--radius-lg); padding: 20px 24px;
-  max-width: 640px; margin: 0 auto 48px; text-align: left; position: relative;
+  border-radius: var(--radius-lg); padding: 0;
+  max-width: 680px; margin: 0 auto 48px; text-align: left; position: relative;
+  overflow: hidden;
 }
 .install-card::before {
   content: ''; position: absolute; inset: -1px; border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, rgba(240,180,41,0.2) 0%, transparent 50%);
-  pointer-events: none; z-index: -1;
+  background: linear-gradient(135deg, rgba(240,180,41,0.18) 0%, transparent 55%);
+  pointer-events: none; z-index: 0;
 }
+
+/* Tool tabs (outer) */
+.tool-tablist {
+  display: flex; align-items: center; gap: 0; position: relative;
+  border-bottom: 1px solid var(--border); padding: 0 4px;
+  background: var(--bg-elevated);
+}
+.tool-tab {
+  background: none; border: none; cursor: pointer;
+  font-family: var(--font-mono); font-size: 0.75rem; font-weight: 600;
+  letter-spacing: 0.05em; color: var(--text-muted);
+  padding: 11px 16px; position: relative; z-index: 1; transition: color var(--transition);
+  white-space: nowrap;
+}
+.tool-tab::after {
+  content: ''; position: absolute; bottom: -1px; left: 0; right: 0; height: 2px;
+  background: var(--accent); transform: scaleX(0); transform-origin: left;
+  transition: transform 180ms ease;
+}
+.tool-tab.active { color: var(--text); }
+.tool-tab.active::after { transform: scaleX(1); }
+.tool-tab:not(.active):hover { color: var(--text); }
+
+/* Tool panels */
+.tool-panel { display: none; padding: 16px 20px 20px; position: relative; z-index: 1; }
+.tool-panel.active { display: block; }
+
+/* Method tabs (inner) */
+.method-tablist {
+  display: flex; gap: 4px; margin-bottom: 14px;
+}
+.method-tab {
+  background: none; border: 1px solid var(--border); border-radius: var(--radius-sm);
+  cursor: pointer; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 500;
+  letter-spacing: 0.06em; color: var(--text-muted); padding: 4px 12px;
+  transition: var(--transition);
+}
+.method-tab.active {
+  background: var(--accent-dim); border-color: rgba(240,180,41,0.3); color: var(--accent);
+}
+.method-tab:not(.active):hover { color: var(--text); border-color: var(--text-dim); }
+
+/* Command panels */
+.cmd-panel { display: none; }
+.cmd-panel.active { display: block; }
+
 .install-label {
   display: flex; align-items: center; gap: 8px; font-family: var(--font-mono);
-  font-size: 0.72rem; color: var(--text-muted); letter-spacing: 0.04em; margin-bottom: 10px;
+  font-size: 0.7rem; color: var(--text-muted); letter-spacing: 0.04em; margin-bottom: 8px;
 }
 .install-step { color: var(--accent); font-weight: 700; }
-.install-cmd-row { display: flex; align-items: center; gap: 12px; }
-.install-cmd { font-family: var(--font-mono); font-size: 0.82rem; color: var(--text); flex: 1; word-break: break-all; letter-spacing: -0.01em; }
+.install-cmd-row {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm);
+  padding: 10px 14px;
+}
+.install-cmd {
+  font-family: var(--font-mono); font-size: 0.78rem; color: var(--text);
+  flex: 1; word-break: break-all; letter-spacing: -0.01em;
+}
 .copy-btn {
   flex-shrink: 0; display: inline-flex; align-items: center; gap: 5px;
   background: var(--accent-dim); border: 1px solid rgba(240,180,41,0.25);
   border-radius: var(--radius-sm); color: var(--accent);
-  font-family: var(--font-mono); font-size: 0.7rem; font-weight: 600;
-  letter-spacing: 0.06em; padding: 6px 12px; cursor: pointer;
+  font-family: var(--font-mono); font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.06em; padding: 5px 10px; cursor: pointer;
   transition: var(--transition); white-space: nowrap;
 }
 .copy-btn:hover { background: var(--accent); color: #09090e; border-color: var(--accent); }

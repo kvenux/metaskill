@@ -285,10 +285,38 @@
     document.getElementById("modal").classList.remove("active");
   };
 
+  /* ── Tab switching ── */
+  window.selectTool = function (tool) {
+    document.querySelectorAll(".tool-tab").forEach(b => {
+      const on = b.dataset.tool === tool;
+      b.classList.toggle("active", on);
+      b.setAttribute("aria-selected", on);
+    });
+    document.querySelectorAll(".tool-panel").forEach(p => {
+      p.classList.toggle("active", p.id === "tp-" + tool);
+    });
+  };
+
+  window.selectMethod = function (btn, panelId) {
+    const tablist = btn.closest(".method-tablist");
+    tablist.querySelectorAll(".method-tab").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    const panel = btn.closest(".tool-panel");
+    panel.querySelectorAll(".cmd-panel").forEach(p => p.classList.remove("active"));
+    document.getElementById(panelId).classList.add("active");
+  };
+
   /* ── Clipboard ── */
+  window.copyCmd = function (btn) {
+    const instruction = t("install_instruction");
+    const cmd = btn.dataset.cmd;
+    const full = instruction + "\n" + cmd;
+    copyText(full, btn);
+  };
+
   window.copyInstall = function () {
-    const cmd = "curl -s https://kvenux.github.io/metaskill/api/codeskill/setup | cat";
-    copyText(cmd, document.querySelector(".copy-btn"));
+    const btn = document.querySelector(".copy-btn");
+    if (btn) copyCmd(btn);
   };
 
   window.copyText = function (text, btn) {
