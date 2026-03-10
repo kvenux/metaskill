@@ -5,7 +5,7 @@ import json
 import logging
 from datetime import datetime, timezone
 
-from config import CATEGORIES, SKILL_PACKS, OUTPUT_DIR
+from config import CATEGORIES, SKILL_PACKS, OUTPUT_DIR, SEARCH_SYNONYMS
 
 log = logging.getLogger(__name__)
 
@@ -24,12 +24,18 @@ def _skill_detail(skill: dict) -> dict:
         "description": skill.get("description", ""),
         "summary": skill.get("summary", ""),
         "source": skill["source"],
-        "category_id": skill.get("category_id", "utility"),
+        "category_id": skill.get("category_id", "productivity"),
         "tags": skill.get("tags", []),
         "file_list": skill.get("file_list", []),
         "raw_base_url": skill.get("raw_base_url", ""),
         "security_status": skill.get("security_status", "safe"),
         "security_warnings": skill.get("security_warnings", []),
+        "rating": skill.get("rating", 0),
+        "rating_grade": skill.get("rating_grade", "D"),
+        "rating_dimensions": skill.get("rating_dimensions", {}),
+        "flow_diagram": skill.get("flow_diagram", ""),
+        "output_preview": skill.get("output_preview", ""),
+        "target_audience": skill.get("target_audience", ""),
         "updated_at": skill.get("updated_at", datetime.now(timezone.utc).isoformat()),
     }
 
@@ -39,10 +45,12 @@ def _skill_list_item(skill: dict) -> dict:
         "id": skill["id"],
         "name": skill["name"],
         "summary": skill.get("summary", ""),
-        "category_id": skill.get("category_id", "utility"),
+        "category_id": skill.get("category_id", "productivity"),
         "tags": skill.get("tags", []),
         "source_repo": skill["source"]["repo"],
         "security_status": skill.get("security_status", "safe"),
+        "rating": skill.get("rating", 0),
+        "rating_grade": skill.get("rating_grade", "D"),
     }
 
 
@@ -70,13 +78,14 @@ def generate_all(skills: list[dict]):
     cat_list = []
     cat_skills = {cid: [] for cid in CATEGORIES}
     for s in skills:
-        cid = s.get("category_id", "utility")
+        cid = s.get("category_id", "productivity")
         if cid in cat_skills:
             cat_skills[cid].append(_skill_list_item(s))
     for cid, info in CATEGORIES.items():
         cat_list.append({
             "id": cid,
             "name": info["name"],
+            "name_en": info.get("name_en", ""),
             "description": info["description"],
             "skill_count": len(cat_skills.get(cid, [])),
         })
@@ -90,6 +99,7 @@ def generate_all(skills: list[dict]):
         _write_json(os.path.join(OUTPUT_DIR, "categories", cid, "index.json"), {
             "id": cid,
             "name": info["name"],
+            "name_en": info.get("name_en", ""),
             "description": info["description"],
             "skills": cat_skills.get(cid, []),
         })
@@ -113,6 +123,8 @@ def generate_all(skills: list[dict]):
             "id": pid,
             "name": pinfo["name"],
             "description": pinfo["description"],
+            "emoji": pinfo.get("emoji", "📦"),
+            "featured": pinfo.get("featured", False),
             "skill_ids": pinfo["skills"],
             "skills": pack_skills,
         }
@@ -121,6 +133,8 @@ def generate_all(skills: list[dict]):
             "id": pid,
             "name": pinfo["name"],
             "description": pinfo["description"],
+            "emoji": pinfo.get("emoji", "📦"),
+            "featured": pinfo.get("featured", False),
             "skill_count": len(pack_skills),
         })
     _write_json(os.path.join(OUTPUT_DIR, "packs", "index.json"), {
@@ -163,5 +177,17 @@ def generate_all(skills: list[dict]):
         "by_security": status_counts,
         "updated_at": now,
     })
+
+    # --- /api/rankings/index.json (top skills by rating) ---
+    ranked = sorted(skills, key=lambda s: s.get("rating", 0), reverse=True)
+    ranking_items = [_skill_list_item(s) for s in ranked]
+    _write_json(os.path.join(OUTPUT_DIR, "rankings", "index.json"), {
+        "total": len(ranking_items),
+        "items": ranking_items,
+        "updated_at": now,
+    })
+
+    # --- /api/synonyms/index.json (search synonyms for frontend) ---
+    _write_json(os.path.join(OUTPUT_DIR, "synonyms", "index.json"), SEARCH_SYNONYMS)
 
     log.info("Generated all static files in %s (%d skills)", OUTPUT_DIR, len(skills))

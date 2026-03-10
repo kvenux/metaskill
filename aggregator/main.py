@@ -13,6 +13,8 @@ from cloner import clone_or_pull_all
 from parser import parse_repo
 from categorizer import categorize_all
 from security_scanner import scan_skill
+from rater import rate_all
+from flow_generator import generate_flows
 from static_generator import generate_all
 
 logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
@@ -152,12 +154,20 @@ def main():
     log.info("Step 4: Categorizing skills...")
     unique_skills = categorize_all(unique_skills)
 
-    # Step 5: Generate static files
-    log.info("Step 5: Generating static API files...")
+    # Step 5: AI Rating (LLM + heuristic fallback)
+    log.info("Step 5: Rating skills...")
+    unique_skills = rate_all(unique_skills)
+
+    # Step 6: Generate flow diagrams + output previews
+    log.info("Step 6: Generating flow diagrams & previews...")
+    unique_skills = generate_flows(unique_skills)
+
+    # Step 7: Generate static files
+    log.info("Step 7: Generating static API files...")
     generate_all(unique_skills)
 
-    # Step 6: Generate codeskill meta-files
-    log.info("Step 6: Generating codeskill install files...")
+    # Step 8: Generate codeskill meta-files
+    log.info("Step 8: Generating codeskill install files...")
     _generate_codeskill_files()
 
     log.info("=== Done! %d skills processed ===", len(unique_skills))

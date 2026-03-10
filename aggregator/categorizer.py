@@ -14,7 +14,7 @@ BATCH_SIZE = 8
 def _keyword_categorize(skill: dict) -> str:
     """Fallback: match skill id/name/description against keyword rules."""
     text = f"{skill['id']} {skill['name']} {skill.get('description', '')}".lower()
-    best_cat = "utility"
+    best_cat = "productivity"
     best_score = 0
     for cat_id, keywords in CATEGORY_KEYWORDS.items():
         score = sum(1 for kw in keywords if kw in text)

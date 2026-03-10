@@ -8,6 +8,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script>mermaid.initialize({startOnLoad:false,theme:'dark',themeVariables:{primaryColor:'#f0b429',primaryTextColor:'#ededf5',primaryBorderColor:'#1e2035',lineColor:'#6b6b8a',secondaryColor:'#181825',tertiaryColor:'#111118'}});</script>
 </head>
 <body>
 
@@ -48,14 +50,12 @@
           <button class="tool-tab active" role="tab" aria-selected="true"  data-tool="opencode"   onclick="selectTool('opencode')"   aria-controls="tp-opencode">OpenCode</button>
           <button class="tool-tab"        role="tab" aria-selected="false" data-tool="claude-code" onclick="selectTool('claude-code')" aria-controls="tp-claude-code">Claude Code</button>
           <button class="tool-tab"        role="tab" aria-selected="false" data-tool="codex"       onclick="selectTool('codex')"       aria-controls="tp-codex">Codex</button>
-          <div class="tool-tab-indicator" id="toolIndicator"></div>
         </div>
-
         <!-- OpenCode -->
         <div class="tool-panel active" id="tp-opencode" role="tabpanel">
           <div class="method-tablist" role="tablist">
-            <button class="method-tab active" role="tab" data-panel="oc-linux" onclick="selectMethod(this,'oc-linux')">Linux / macOS</button>
-            <button class="method-tab"        role="tab" data-panel="oc-win"   onclick="selectMethod(this,'oc-win')">Windows (PS)</button>
+            <button class="method-tab active" role="tab" onclick="selectMethod(this,'oc-linux')">Linux / macOS</button>
+            <button class="method-tab"        role="tab" onclick="selectMethod(this,'oc-win')">Windows (PS)</button>
           </div>
           <div class="cmd-panel active" id="oc-linux">
             <div class="install-label"><span class="install-step">$</span><span data-i18n="install_instruction">Fetch the installation guide and follow it:</span></div>
@@ -78,12 +78,11 @@
             </div>
           </div>
         </div>
-
         <!-- Claude Code -->
         <div class="tool-panel" id="tp-claude-code" role="tabpanel">
           <div class="method-tablist" role="tablist">
-            <button class="method-tab active" role="tab" data-panel="cc-linux" onclick="selectMethod(this,'cc-linux')">Linux / macOS</button>
-            <button class="method-tab"        role="tab" data-panel="cc-win"   onclick="selectMethod(this,'cc-win')">Windows (PS)</button>
+            <button class="method-tab active" role="tab" onclick="selectMethod(this,'cc-linux')">Linux / macOS</button>
+            <button class="method-tab"        role="tab" onclick="selectMethod(this,'cc-win')">Windows (PS)</button>
           </div>
           <div class="cmd-panel active" id="cc-linux">
             <div class="install-label"><span class="install-step">$</span><span data-i18n="install_instruction">Fetch the installation guide and follow it:</span></div>
@@ -106,12 +105,11 @@
             </div>
           </div>
         </div>
-
         <!-- Codex -->
         <div class="tool-panel" id="tp-codex" role="tabpanel">
           <div class="method-tablist" role="tablist">
-            <button class="method-tab active" role="tab" data-panel="cx-linux" onclick="selectMethod(this,'cx-linux')">Linux / macOS</button>
-            <button class="method-tab"        role="tab" data-panel="cx-win"   onclick="selectMethod(this,'cx-win')">Windows (PS)</button>
+            <button class="method-tab active" role="tab" onclick="selectMethod(this,'cx-linux')">Linux / macOS</button>
+            <button class="method-tab"        role="tab" onclick="selectMethod(this,'cx-win')">Windows (PS)</button>
           </div>
           <div class="cmd-panel active" id="cx-linux">
             <div class="install-label"><span class="install-step">$</span><span data-i18n="install_instruction">Fetch the installation guide and follow it:</span></div>
@@ -133,6 +131,22 @@
               </button>
             </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Role Selector -->
+      <div class="role-selector" id="roleSelector">
+        <span class="role-label" data-i18n="role_label">I am a...</span>
+        <div class="role-chips">
+          <button class="role-chip active" data-role="all" onclick="selectRole('all')"><span>✨</span> <span data-i18n="role_all">All</span></button>
+          <button class="role-chip" data-role="frontend" onclick="selectRole('frontend')"><span>🎨</span> <span data-i18n="role_frontend">Frontend</span></button>
+          <button class="role-chip" data-role="backend" onclick="selectRole('backend')"><span>⚙️</span> <span data-i18n="role_backend">Backend</span></button>
+          <button class="role-chip" data-role="fullstack" onclick="selectRole('fullstack')"><span>🔗</span> <span data-i18n="role_fullstack">Full Stack</span></button>
+          <button class="role-chip" data-role="devops" onclick="selectRole('devops')"><span>🚀</span> <span data-i18n="role_devops">DevOps</span></button>
+          <button class="role-chip" data-role="data-ai" onclick="selectRole('data-ai')"><span>🤖</span> <span data-i18n="role_data_ai">Data/AI</span></button>
+          <button class="role-chip" data-role="writer" onclick="selectRole('writer')"><span>📝</span> <span data-i18n="role_writer">Tech Writer</span></button>
+          <button class="role-chip" data-role="designer" onclick="selectRole('designer')"><span>🎯</span> <span data-i18n="role_designer">Designer</span></button>
+          <button class="role-chip" data-role="mobile" onclick="selectRole('mobile')"><span>📱</span> <span data-i18n="role_mobile">Mobile</span></button>
         </div>
       </div>
     </div>
@@ -159,6 +173,7 @@
       </div>
     </div>
   </section>
+<!-- REST_PLACEHOLDER -->
 
   <!-- CONTROLS -->
   <div class="controls-bar">
@@ -168,14 +183,52 @@
         <input class="search-input" id="searchInput" type="text" data-i18n-placeholder="search_placeholder" placeholder="Search skills, tags, descriptions…" autocomplete="off" spellcheck="false">
         <button class="search-clear" id="searchClear" onclick="clearSearch()" aria-label="Clear">✕</button>
       </div>
-      <select class="filter-select" id="categoryFilter">
-        <option value="" data-i18n="filter_all_cats">All Categories</option>
-      </select>
+      <span class="search-result-count" id="searchResultCount"></span>
       <select class="filter-select" id="repoFilter">
         <option value="" data-i18n="filter_all_repos">All Sources</option>
       </select>
     </div>
   </div>
+
+  <!-- CATEGORY PILLS + SORT/FILTER -->
+  <div class="filter-bar">
+    <div class="filter-bar-inner">
+      <div class="pill-scroll" id="categoryPills">
+        <button class="pill active" data-cat="" onclick="selectCategory('')" data-i18n="filter_all">All</button>
+      </div>
+      <div class="filter-controls">
+        <div class="sort-group">
+          <span class="filter-label" data-i18n="sort_label">Sort:</span>
+          <button class="sort-btn active" data-sort="recommended" onclick="setSort('recommended')" data-i18n="sort_recommended">Recommended</button>
+          <button class="sort-btn" data-sort="rating" onclick="setSort('rating')" data-i18n="sort_rating">Rating ↓</button>
+          <button class="sort-btn" data-sort="newest" onclick="setSort('newest')" data-i18n="sort_newest">Newest</button>
+        </div>
+        <div class="grade-group">
+          <span class="filter-label" data-i18n="rating_label">Rating:</span>
+          <button class="grade-btn" data-grade="S" onclick="toggleGrade('S')">S</button>
+          <button class="grade-btn" data-grade="A" onclick="toggleGrade('A')">A</button>
+          <button class="grade-btn" data-grade="B" onclick="toggleGrade('B')">B</button>
+        </div>
+        <div class="view-toggle">
+          <button class="view-btn active" id="viewGrid" onclick="setView('grid')" aria-label="Grid view">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </button>
+          <button class="view-btn" id="viewList" onclick="setView('list')" aria-label="List view">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="4" width="18" height="2" rx="1"/><rect x="3" y="11" width="18" height="2" rx="1"/><rect x="3" y="18" width="18" height="2" rx="1"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP RANKED -->
+  <section class="rankings-section" id="rankingsSection">
+    <div class="rankings-inner">
+      <h2 class="section-title" data-i18n="section_rankings">Must-Have Skills</h2>
+      <div class="rankings-grid" id="rankingsGrid"></div>
+    </div>
+  </section>
+<!-- MAIN_PLACEHOLDER -->
 
   <!-- SKILL GRID -->
   <main class="main">
@@ -184,16 +237,7 @@
         <span data-i18n="section_skills">Skill Library</span>
         <span class="section-count" id="skillCount"></span>
       </h2>
-      <div class="view-toggle">
-        <button class="view-btn active" id="viewGrid" onclick="setView('grid')" aria-label="Grid view">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-        </button>
-        <button class="view-btn" id="viewList" onclick="setView('list')" aria-label="List view">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="4" width="18" height="2" rx="1"/><rect x="3" y="11" width="18" height="2" rx="1"/><rect x="3" y="18" width="18" height="2" rx="1"/></svg>
-        </button>
-      </div>
     </div>
-
     <div class="skill-grid" id="skillGrid"></div>
     <div class="loading-state" id="loading">
       <div class="loading-spinner"></div>
@@ -213,13 +257,21 @@
     </div>
   </section>
 
-  <!-- MODAL -->
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="faq-inner">
+      <h2 class="section-title" data-i18n="section_faq">FAQ</h2>
+      <div class="faq-list" id="faqList"></div>
+    </div>
+  </section>
+
+  <!-- MODAL (full-screen two-column) -->
   <div class="modal-overlay" id="modal" role="dialog" aria-modal="true">
     <div class="modal-box">
       <button class="modal-close" onclick="closeModal()" aria-label="Close">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18M6 6l12 12"/></svg>
       </button>
-      <div id="modalContent"></div>
+      <div class="modal-body" id="modalContent"></div>
     </div>
   </div>
 
